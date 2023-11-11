@@ -15,8 +15,8 @@
 
 ## Instalação
 
-🚧
+Por enquanto, você só precisa ter Python instalado. No futuro, as dependências estarão em um `requirements.txt`.
 
 ## Uso
 
-🚧
+`python main.py`
