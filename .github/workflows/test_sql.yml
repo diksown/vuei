@@ -25,7 +25,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Run SQL Scripts
-      run: .github/run_sql_scripts.sh
+    - name: Run SQL Files
+      run: .github/run_sql_files.sh
       env:
         PGPASSWORD: postgres
