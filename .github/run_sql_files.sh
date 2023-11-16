@@ -6,10 +6,10 @@ HOST="localhost"
 
 FILES=("esquema.sql" "triggers.sql" "dados.sql" "consultas.sql")
 
-for file in "sql/${FILES[@]}"
+for file in "${FILES[@]}"
 do
   echo "Running $file..."
-  PGPASSWORD=postgres psql -d "$DATABASE_NAME" -U "$USER" -h "$HOST" -f "$file"
+  PGPASSWORD=postgres psql -d "$DATABASE_NAME" -U "$USER" -h "$HOST" -f "sql/$file"
   if [ $? -ne 0 ]; then
     echo "Error encountered running $file"
     exit 1
