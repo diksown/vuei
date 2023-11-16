@@ -4,9 +4,9 @@ DATABASE_NAME="test_sql"
 USER="postgres" # Default user
 HOST="localhost"
 
-FILES=("schema.sql" "triggers.sql" "mock_data.sql")
+FILES=("esquema.sql" "triggers.sql" "dados.sql" "consultas.sql")
 
-for file in "${FILES[@]}"
+for file in "sql/${FILES[@]}"
 do
   echo "Running $file..."
   PGPASSWORD=postgres psql -d "$DATABASE_NAME" -U "$USER" -h "$HOST" -f "$file"
