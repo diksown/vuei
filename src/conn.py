@@ -25,14 +25,17 @@ def health_check(db_config: dict) -> bool:
 def ask_credentials() -> bool:
     """Ask for database credentials. Return True if connection is successful."""
 
-    print(f"[bold green]Configurando o arquivo {DB_ENV_PATH}...\n")
+    print(f"Configurando o arquivo [bold green]{DB_ENV_PATH}[/bold green]...\n")
 
-    db_config = {
-        "dbname": questionary.text("Nome do banco de dados:").unsafe_ask(),
-        "user": questionary.text("Nome do usuário do banco de dados:").unsafe_ask(),
-        "password": questionary.password("Senha do banco de dados:").unsafe_ask(),
-        "host": questionary.text("Nome do servidor:").unsafe_ask(),
-    }
+    try:
+        db_config = {
+            "dbname": questionary.text("Nome do banco de dados:").unsafe_ask(),
+            "user": questionary.text("Nome do usuário do banco de dados:").unsafe_ask(),
+            "password": questionary.password("Senha do banco de dados:").unsafe_ask(),
+            "host": questionary.text("Nome do servidor:").unsafe_ask(),
+        }
+    except KeyboardInterrupt:
+        raise CantConnectToDbError
 
     print()
 
@@ -50,6 +53,15 @@ def get_credentials() -> dict:
 
 def get_db_connection():
     if not os.path.exists(DB_ENV_PATH):
+        print("[bold]Olá!")
+        print()
+        print("Parece que você está executando o [bold]vuei[/bold] pela primeira vez!")
+        print(
+            # de uma desculpa de que vcs são economicos
+            "Devido ao nosso [strike]corte de gastos[/strike] compromisso com os preços baixos para nossos clientes,\n"
+            + "nós não temos um banco de dados da empresa. Por isso, você vai poder trazer o seu!\n"
+            + "Vamos salvar suas credenciais no arquivo [magenta]./connection.json[/magenta].\n"
+        )
         db_config = ask_credentials()
     else:
         db_config = get_credentials()

@@ -15,7 +15,16 @@
 
 ## Instalação
 
-Por enquanto, você só precisa ter Python instalado. No futuro, as dependências estarão em um `requirements.txt`.
+### Pré-requisitos
+
+Verifique se você tem Python >3.10 instalado
+
+```sh
+git clone https://github.com/diksown/vuei
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Uso
 

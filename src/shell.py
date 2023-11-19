@@ -1,10 +1,11 @@
 import cmd
 
-from .database import CantConnectToDbError, get_db_connection
+from rich import print
+
+from .conn import CantConnectToDbError, get_db_connection
 
 
 class VueiShell(cmd.Cmd):
-    intro = "Bem-vindo ao VUEI DEMAIS!\nDigite help ou ? para listar os comandos ou Ctrl+C para sair."
     prompt = ">=- "
 
     def __init__(self):
@@ -13,6 +14,11 @@ class VueiShell(cmd.Cmd):
             self.conn = get_db_connection()
         except CantConnectToDbError:
             exit(1)
+
+        # TODO: Rodar o sql para popular o banco de dados
+
+        print("Bem-vindo ao [bold]VUEI DEMAIS[/bold]!")
+        print("Digite help ou ? para listar os comandos ou Ctrl+C para sair.")
 
     def do_consultar_destinos(self, arg):
         """Consulta destinos de expedições interplanetárias."""
@@ -26,12 +32,20 @@ class VueiShell(cmd.Cmd):
         """Registra uma nova expedição."""
         print("Expedição registrada com sucesso!")
 
-    def do_sair(self, arg):
-        """Sai da shell interplanetária."""
-        print("Saindo da shell interplanetária.")
+    def _sair(self):
+        print(f"Saindo da shell interplanetária.")
         if self.conn:
             self.conn.close()
         return True
+
+    def do_sair(self, arg):
+        """Sai da shell"""
+        return self._sair()
+
+    def do_EOF(self, arg):
+        """Sai da shell quando Ctrl+D é pressionado"""
+        print()  # Pula uma linha para ficar consistente com os outros
+        return self._sair()
 
     def cmdloop(self):
         try:
