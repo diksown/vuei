@@ -1,80 +1,81 @@
+import json
 import os
 
 import psycopg2
 import questionary
-import toml
-from rich.prompt import Prompt
-from rich.text import Text
+from rich import print
 
-
-class PromptWithDefault(Prompt):
-    def render_default(self, default) -> Text:
-        return Text(f"(default = {default})", "prompt.default")
+DB_ENV_PATH = "connection.json"
 
 
 class CantConnectToDbError(Exception):
     pass
 
 
-DB_ENV_PATH = "settings.toml"
+def health_check(db_config: dict) -> bool:
+    """Check if database connection is successful."""
+    try:
+        conn = psycopg2.connect(**db_config)
+        conn.close()
+        return True
+    except psycopg2.OperationalError:
+        return False
 
 
-def create_db_env(file_path):
-    """Create a file with database configurations using prompts."""
-    print(f"Vamos configurar o arquivo {DB_ENV_PATH}.")
+def ask_credentials() -> bool:
+    """Ask for database credentials. Return True if connection is successful."""
+
+    print(f"[bold green]Configurando o arquivo {DB_ENV_PATH}...\n")
+
     db_config = {
-        "dbname": PromptWithDefault.ask("Nome do banco de dados", default="vuei"),
-        "user": PromptWithDefault.ask(
-            "Nome do usuário do banco de dados", default="postgres"
-        ),
-        "password": PromptWithDefault.ask(
-            "Senha do banco de dados", password=True, default="postgres"
-        ),
-        "host": PromptWithDefault.ask("Nome do servidor", default="localhost"),
+        "dbname": questionary.text("Nome do banco de dados:").unsafe_ask(),
+        "user": questionary.text("Nome do usuário do banco de dados:").unsafe_ask(),
+        "password": questionary.password("Senha do banco de dados:").unsafe_ask(),
+        "host": questionary.text("Nome do servidor:").unsafe_ask(),
     }
 
-    with open(file_path, "w") as file:
-        toml.dump(db_config, file)
+    print()
+
+    with open(DB_ENV_PATH, "w") as file:
+        json.dump(db_config, file, indent=2)
 
     return db_config
 
 
-def read_db_env(file_path):
-    """Read database configuration from a TOML file."""
-    with open(file_path, "r") as file:
-        return toml.load(file)
+def get_credentials() -> dict:
+    """Read database credentials from a json file."""
+    with open(DB_ENV_PATH, "r") as file:
+        return json.load(file)
 
 
-def handle_db_connection():
-    """Handle database connection."""
+def get_db_connection():
     if not os.path.exists(DB_ENV_PATH):
-        db_config = create_db_env(DB_ENV_PATH)
+        db_config = ask_credentials()
     else:
-        print(f"Arquivo {DB_ENV_PATH} encontrado. Lendo configurações...")
-        db_config = read_db_env(DB_ENV_PATH)
+        db_config = get_credentials()
 
-    try:
-        conn = psycopg2.connect(
-            dbname=db_config.get("dbname"),
-            user=db_config.get("user"),
-            password=db_config.get("password"),
-            host=db_config.get("host"),
+    while True:
+        if health_check(db_config):
+            return psycopg2.connect(**db_config)
+
+        print(
+            f"[bold red]Suas credenciais ({DB_ENV_PATH}) estão incorretas ou o banco de dados não está disponível.\n"
         )
-        print("Conexão com o banco de dados estabelecida com sucesso.")
-        return conn
 
-    except psycopg2.OperationalError:
-        print()
-        print(f"Não foi possível conectar usando o arquivo {DB_ENV_PATH}.")
-        print(f"1. Os dados de conexão estão incorretos.")
-        print(f"2. Esse banco de dados não existe ou não está disponível no momento.")
-        print()
-        print("Confira o arquivo settings.toml e tente novamente.")
-        # q = questionary.select(
-        #     "O que você deseja fazer?",
-        #     choices=["Mostrar a configuração", "Fazer a configuração novamente"],
-        #     instruction="(↑ ↓)",
-        #     pointer="❯",
-        # ).ask()
-        # print(f"q is {q}")
-        raise CantConnectToDbError
+        SIM = "Sim"
+        NAO = f"Não, vou conferir o arquivo antes."
+
+        try:
+            choice = questionary.select(
+                f"Deseja tentar configurar a conexão novamente?",
+                choices=[SIM, NAO],
+                instruction="(↑↓)",
+                pointer="❯",
+            ).unsafe_ask()
+            if choice == NAO:
+                raise CantConnectToDbError
+            else:
+                print()
+                db_config = ask_credentials()
+        except KeyboardInterrupt:
+            raise CantConnectToDbError

@@ -1,6 +1,6 @@
 import cmd
 
-from .database import CantConnectToDbError, handle_db_connection
+from .database import CantConnectToDbError, get_db_connection
 
 
 class VueiShell(cmd.Cmd):
@@ -10,7 +10,7 @@ class VueiShell(cmd.Cmd):
     def __init__(self):
         super(VueiShell, self).__init__()
         try:
-            self.conn = handle_db_connection()
+            self.conn = get_db_connection()
         except CantConnectToDbError:
             exit(1)
 
