@@ -1,9 +1,29 @@
 import cmd
 
+import psycopg2
+
 
 class VueiShell(cmd.Cmd):
-    intro = "Bem-vindo ao VUEI DEMAIS! Digite help ou ? para listar os comandos ou Ctrl+C para sair."
-    prompt = "*>==- "
+    intro = "Bem-vindo ao VUEI DEMAIS!\nDigite help ou ? para listar os comandos ou Ctrl+C para sair."
+    prompt = ">=- "
+
+    def __init__(self):
+        super(VueiShell, self).__init__()
+        self.conn = None
+        self.connect_db()
+
+    def connect_db(self):
+        try:
+            self.conn = psycopg2.connect(
+                dbname="vuei",
+                user="postgres",
+                password="postgres",
+                host="localhost",
+            )
+            print("Conexão com o banco de dados estabelecida.")
+        except Exception as e:
+            print("Não foi possível conectar ao banco de dados:", e)
+            exit(1)
 
     def do_consultar_destinos(self, arg):
         """Consulta destinos de expedições interplanetárias."""
@@ -20,6 +40,8 @@ class VueiShell(cmd.Cmd):
     def do_sair(self, arg):
         """Sai da shell interplanetária."""
         print("Saindo da shell interplanetária.")
+        if self.conn:
+            self.conn.close()
         return True
 
     def cmdloop(self):
