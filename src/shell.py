@@ -1,6 +1,6 @@
 import cmd
 
-import psycopg2
+from .database import handle_db_connection
 
 
 class VueiShell(cmd.Cmd):
@@ -9,21 +9,7 @@ class VueiShell(cmd.Cmd):
 
     def __init__(self):
         super(VueiShell, self).__init__()
-        self.conn = None
-        self.connect_db()
-
-    def connect_db(self):
-        try:
-            self.conn = psycopg2.connect(
-                dbname="vuei",
-                user="postgres",
-                password="postgres",
-                host="localhost",
-            )
-            print("Conexão com o banco de dados estabelecida.")
-        except Exception as e:
-            print("Não foi possível conectar ao banco de dados:", e)
-            exit(1)
+        self.conn = handle_db_connection()
 
     def do_consultar_destinos(self, arg):
         """Consulta destinos de expedições interplanetárias."""
