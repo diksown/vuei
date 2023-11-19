@@ -1,6 +1,6 @@
 import cmd
 
-from .database import handle_db_connection
+from .database import CantConnectToDbError, handle_db_connection
 
 
 class VueiShell(cmd.Cmd):
@@ -9,7 +9,10 @@ class VueiShell(cmd.Cmd):
 
     def __init__(self):
         super(VueiShell, self).__init__()
-        self.conn = handle_db_connection()
+        try:
+            self.conn = handle_db_connection()
+        except CantConnectToDbError:
+            exit(1)
 
     def do_consultar_destinos(self, arg):
         """Consulta destinos de expedições interplanetárias."""
