@@ -43,7 +43,7 @@ class VueiShell(cmd.Cmd):
         return self._sair()
 
     def do_EOF(self, arg):
-        """Sai da shell quando Ctrl+D é pressionado"""
+        """Comando criado para sair da shell com Ctrl+D."""
         print()  # Pula uma linha para ficar consistente com os outros
         return self._sair()
 
