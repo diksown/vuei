@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION check_piloto_turista_overlap()
 RETURNS TRIGGER AS $$
 DECLARE
-    overlap VARCHAR(20);
+    overlap VARCHAR(50);
 BEGIN
     SELECT PILOTO INTO overlap
     FROM EXPEDICAO
@@ -22,7 +22,7 @@ FOR EACH ROW EXECUTE FUNCTION check_piloto_turista_overlap();
 CREATE OR REPLACE FUNCTION check_colonia_conflict()
 RETURNS TRIGGER AS $$
 DECLARE
-    overlap VARCHAR(20);
+    overlap VARCHAR(50);
 BEGIN
     SELECT FACCAO_NOME INTO overlap
     FROM COLONIA
