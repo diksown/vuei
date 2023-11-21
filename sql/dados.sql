@@ -279,14 +279,14 @@ INSERT INTO EXPEDICAO(PILOTO, NAVE, DH_INICIO, DH_FIM, ROTA) VALUES
 ('lp2000lp@gmail.com', 22151, format_datetime('2023-01-15 08:00:00'), format_datetime('2023-01-30 16:00:00'), 'Rota da Aventura'),
 ('c_fernandes@gmail.com', 14142, format_datetime('2023-02-10 10:30:00'), format_datetime('2023-02-15 18:30:00'), 'Rota dos Mistérios Antigos'),
 ('clarasouza_@gmail.com', 21321, format_datetime('2023-03-05 09:45:00'), format_datetime('2023-03-20 17:45:00'), 'Rota do Explorador Solitário'),  
--- ('lp2000lp@gmail.com', '66566', format_datetime('2023-04-20 11:15:00'), format_datetime('2023-04-27 19:15:00'), 'Rota das Maravilhas Naturais'),          
--- ('felipecarv@gmail.com', '32111', format_datetime('2023-05-10 07:30:00'), format_datetime('2023-05-15 15:30:00'), 'Rota do Viajante Intrépido'),           
--- ('moreiraleo@gmail.com', '44554', format_datetime('2023-06-08 10:00:00'), format_datetime('2023-06-13 18:00:00'), 'Rota do Tesouro Perdido'),           
--- ('clarasouza_@gmail.com', '21321', format_datetime('2023-07-25 08:45:00'), format_datetime('2023-07-30 16:45:00'), 'Rota da Serenidade'),        
--- ('c_fernandes@gmail.com', '67890', format_datetime('2023-08-14 09:30:00'), format_datetime('2023-08-16 17:30:00'), 'Rota das Aventuras Aquáticas'),           
--- ('c_fernandes@gmail.com', '45678', format_datetime('2023-09-03 07:15:00'), format_datetime('2023-09-17 15:15:00'), 'Rota das Maravilhas do Deserto'),         
--- ('pcosta1999@gmail.com', '52008', format_datetime('2023-10-12 11:30:00'), format_datetime('2023-10-17 19:30:00'), 'Rota da Floresta Encantada'),        
--- ('pcosta1999@gmail.com', '48825', format_datetime('2023-11-20 10:15:00'), format_datetime('2023-11-25 18:15:00'), 'Rota das Montanhas Majestosas');
+('lp2000lp@gmail.com', 66566, format_datetime('2023-04-20 11:15:00'), format_datetime('2023-04-27 19:15:00'), 'Rota das Maravilhas Naturais'),          
+('felipecarv@gmail.com', 32111, format_datetime('2023-05-10 07:30:00'), format_datetime('2023-05-15 15:30:00'), 'Rota do Viajante Intrépido'),           
+('moreiraleo@gmail.com', 44554, format_datetime('2023-06-08 10:00:00'), format_datetime('2023-06-13 18:00:00'), 'Rota do Tesouro Perdido'),           
+('clarasouza_@gmail.com', 21321, format_datetime('2023-07-25 08:45:00'), format_datetime('2023-07-30 16:45:00'), 'Rota da Serenidade'),        
+('c_fernandes@gmail.com', 67890, format_datetime('2023-08-14 09:30:00'), format_datetime('2023-08-16 17:30:00'), 'Rota das Aventuras Aquáticas'),           
+('c_fernandes@gmail.com', 45678, format_datetime('2023-09-03 07:15:00'), format_datetime('2023-09-17 15:15:00'), 'Rota das Maravilhas do Deserto'),         
+('pcosta1999@gmail.com', 52008, format_datetime('2023-10-12 11:30:00'), format_datetime('2023-10-17 19:30:00'), 'Rota da Floresta Encantada'),        
+('pcosta1999@gmail.com', 48825, format_datetime('2023-11-20 10:15:00'), format_datetime('2023-11-25 18:15:00'), 'Rota das Montanhas Majestosas');
 
 
 -- INSERT INTO EXPEDICAO_TURISTA(NAVE, DH_INICIO, TURISTA) VALUES 
