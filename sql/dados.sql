@@ -278,7 +278,7 @@ VALUES ('Zorgon', 85, 180, 'Pele azul, olhos grandes'),
 INSERT INTO EXPEDICAO(PILOTO, NAVE, DH_INICIO, DH_FIM, ROTA) VALUES 
 ('lp2000lp@gmail.com', 22151, format_datetime('2023-01-15 08:00:00'), format_datetime('2023-01-30 16:00:00'), 'Rota da Aventura'),
 ('c_fernandes@gmail.com', 14142, format_datetime('2023-02-10 10:30:00'), format_datetime('2023-02-15 18:30:00'), 'Rota dos Mistérios Antigos'),
-('clarasouza_@gmail.com', 21321, format_datetime('2023-03-05 09:45:00'), format_datetime('2023-03-20 17:45:00'), 'Rota do Explorador Solitário');  
+('clarasouza_@gmail.com', 21321, format_datetime('2023-03-05 09:45:00'), format_datetime('2023-03-20 17:45:00'), 'Rota do Explorador Solitário'),
 ('lp2000lp@gmail.com', 66566, format_datetime('2023-04-20 11:15:00'), format_datetime('2023-04-27 19:15:00'), 'Rota das Maravilhas Naturais'),          
 ('felipecarv@gmail.com', 32111, format_datetime('2023-05-10 07:30:00'), format_datetime('2023-05-15 15:30:00'), 'Rota do Viajante Intrépido'),           
 ('moreiraleo@gmail.com', 44554, format_datetime('2023-06-08 10:00:00'), format_datetime('2023-06-13 18:00:00'), 'Rota do Tesouro Perdido'),           
