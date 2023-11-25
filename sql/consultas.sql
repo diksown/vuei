@@ -1,0 +1,80 @@
+/* CONSULTA 1: (reserva de expedicoes) seleciona todas as expedicoes que ainda nao partiram e que nao possuem capacidade lotada */
+
+SELECT EX.NAVE, EX.DH_INICIO, ((NV.CAPACIDADE - 1) - COUNT(ET.TURISTA)) AS VAGAS_RESTANTES
+FROM EXPEDICAO EX JOIN NAVE NV
+	ON EX.NAVE = NV.NUMERO_REGISTRO
+	LEFT JOIN EXPEDICAO_TURISTA ET
+		ON ET.NAVE = EX.NAVE AND ET.DH_INICIO = EX.DH_INICIO
+GROUP BY EX.NAVE, EX.DH_INICIO, NV.CAPACIDADE
+HAVING COUNT(ET.TURISTA) < NV.CAPACIDADE - 1
+	AND CURRENT_DATE < EX.DH_INICIO;
+
+
+
+/* CONSULTA 2: (rotas seguras) seleciona todas as rotas que visitam apenas corpos que nunca estiveram em guerra */
+
+SELECT DISTINCT RC.ROTA
+FROM GUERRA GR JOIN COLONIA CL 
+	ON GR.AGRESSOR = CL.ID OR GR.DEFENSOR = CL.ID
+	RIGHT JOIN ROTA_CORPO RC
+		ON RC.GALAXIA_CORPO = CL.GALAXIA AND RC.NOME_CORPO = CL.NOME_PLANETA
+WHERE GR.AGRESSOR IS NULL
+ORDER BY RC.ROTA;
+
+
+
+/* CONSULTA 3: (racas mais perigosas) seleciona a quantidade de guerras e o numero medio de obitos em guerras das quais cada raca participou ou participa como agressora (inclusive as que nunca participaram de guerras), com possibilidade para filtrar por nivel minimo de perigo (0 por default) */
+
+SELECT RC.NOME, COUNT(GR.AGRESSOR) AS QUANTIDADE_GUERRAS, ROUND(AVG(GR.OBITOS)) AS MEDIA_OBITOS,
+	CASE 
+		WHEN AVG(GR.OBITOS) > 1000 THEN 'ALTO'
+		WHEN AVG(GR.OBITOS) <= 1000 AND AVG(GR.OBITOS) > 500 THEN 'MEDIO'
+		WHEN AVG(GR.OBITOS) <= 500 AND AVG(GR.OBITOS) > 0 THEN 'BAIXO'
+		ELSE 'INEXISTENTE'
+	END AS PERIGO
+FROM GUERRA GR JOIN COLONIA CL 
+	ON GR.AGRESSOR = CL.ID
+	JOIN FACCAO_RACA FR
+		ON FR.FACCAO = CL.FACCAO_NOME
+		RIGHT JOIN RACA RC
+			ON RC.NOME = FR.RACA
+GROUP BY RC.NOME
+HAVING ROUND(AVG(GR.OBITOS)) >= 0 OR AVG(GR.OBITOS) IS NULL
+ORDER BY AVG(GR.OBITOS) ASC;
+
+
+
+/* CONSULTA 4: (estatisticas para o setor de marketing) seleciona max-min-avg faixa etaria de turista por rota (para rotas que ja foram desbravadas por turistas) */
+
+SELECT EX.ROTA, 
+	MAX(EXTRACT(YEAR FROM AGE(CURRENT_DATE, PS.DATA))) AS IDADE_MAX, 
+	MIN(EXTRACT(YEAR FROM AGE(CURRENT_DATE, PS.DATA))) AS IDADE_MIN, 
+	ROUND(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, PS.DATA)))) AS IDADE_MEDIA
+FROM EXPEDICAO EX JOIN EXPEDICAO_TURISTA ET
+	ON EX.NAVE = ET.NAVE AND EX.DH_INICIO = ET.DH_INICIO
+	JOIN PESSOA PS 
+		ON PS.EMAIL = ET.TURISTA
+GROUP BY EX.ROTA
+ORDER BY IDADE_MEDIA;
+
+
+
+/* CONSULTA 5: (pilotos experientes em uma rota) seleciona todos os pilotos que, em um dado periodo, pilotaram todas as expedicoes para uma determinada rota */
+
+SELECT DISTINCT PS.NOME, PS.EMAIL
+FROM PESSOA PS
+JOIN EXPEDICAO EX ON PS.EMAIL = EX.PILOTO
+WHERE NOT EXISTS (
+    (
+		SELECT EX1.NAVE, EX1.DH_INICIO
+     	FROM EXPEDICAO EX1
+     	WHERE (UPPER(EX1.ROTA) = 'ROTA DA AVENTURA') AND 
+     	(EX1.DH_INICIO BETWEEN TIMESTAMP '2021-01-01' AND TIMESTAMP '2023-12-31')
+    )
+    EXCEPT
+    (
+		SELECT EX2.NAVE, EX2.DH_INICIO
+     	FROM EXPEDICAO EX2
+    	WHERE EX2.PILOTO = EX.PILOTO
+    )
+);
