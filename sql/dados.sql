@@ -1,17 +1,15 @@
-CREATE OR REPLACE FUNCTION format_datetime(date_str VARCHAR)
-RETURNS TIMESTAMP AS $$
+CREATE OR REPLACE FUNCTION format_datetime(date_str VARCHAR) RETURNS TIMESTAMP AS $$
 BEGIN
     RETURN TO_TIMESTAMP(date_str, 'YYYY-MM-DD HH24:MI:SS');
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION format_date(date_str VARCHAR)
-RETURNS TIMESTAMP AS $$
+
+CREATE OR REPLACE FUNCTION format_date(date_str VARCHAR) RETURNS TIMESTAMP AS $$
 BEGIN
     RETURN TO_TIMESTAMP(date_str, 'YYYY/MM/DD');
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE PLPGSQL;
 
 
 INSERT INTO PESSOA (EMAIL, NOME, SENHA, TELEFONE, DATA)
@@ -273,47 +271,46 @@ VALUES ('Zorgon', 85, 180, 'Pele azul, olhos grandes'),
        ('Grynthor', 115, 240, 'Pele escorregadia, tentáculos');
 
 
-INSERT INTO EXPEDICAO(PILOTO, NAVE, DH_INICIO, DH_FIM, ROTA) VALUES 
-('lp2000lp@gmail.com', 22151, format_datetime('2023-01-15 08:00:00'), format_datetime('2023-01-30 16:00:00'), 'Rota da Aventura'),
-('c_fernandes@gmail.com', 14142, format_datetime('2023-02-10 10:30:00'), format_datetime('2023-02-15 18:30:00'), 'Rota dos Mistérios Antigos'),
-('clarasouza_@gmail.com', 21321, format_datetime('2023-03-05 09:45:00'), format_datetime('2023-03-20 17:45:00'), 'Rota do Explorador Solitário'),  
-('lp2000lp@gmail.com', 66566, format_datetime('2023-04-20 11:15:00'), format_datetime('2023-04-27 19:15:00'), 'Rota das Maravilhas Naturais'),          
-('felipecarv@gmail.com', 32111, format_datetime('2023-05-10 07:30:00'), format_datetime('2023-05-15 15:30:00'), 'Rota do Viajante Intrépido'),           
-('moreiraleo@gmail.com', 44554, format_datetime('2023-06-08 10:00:00'), format_datetime('2023-06-13 18:00:00'), 'Rota do Tesouro Perdido'),           
-('clarasouza_@gmail.com', 21321, format_datetime('2023-07-25 08:45:00'), format_datetime('2023-07-30 16:45:00'), 'Rota da Serenidade'),        
-('c_fernandes@gmail.com', 67890, format_datetime('2023-08-14 09:30:00'), format_datetime('2023-08-16 17:30:00'), 'Rota das Aventuras Aquáticas'),           
-('c_fernandes@gmail.com', 45678, format_datetime('2023-09-03 07:15:00'), format_datetime('2023-09-17 15:15:00'), 'Rota das Maravilhas do Deserto'),         
-('pcosta1999@gmail.com', 52008, format_datetime('2023-10-12 11:30:00'), format_datetime('2023-10-17 19:30:00'), 'Rota da Floresta Encantada'),        
-('pcosta1999@gmail.com', 48825, format_datetime('2023-11-20 10:15:00'), format_datetime('2023-11-25 18:15:00'), 'Rota das Montanhas Majestosas');
+INSERT INTO EXPEDICAO(PILOTO, NAVE, DH_INICIO, DH_FIM, ROTA)
+VALUES ('lp2000lp@gmail.com', 22151, format_datetime('2023-01-15 08:00:00'), format_datetime('2023-01-30 16:00:00'), 'Rota da Aventura'),
+       ('c_fernandes@gmail.com', 14142, format_datetime('2023-02-10 10:30:00'), format_datetime('2023-02-15 18:30:00'), 'Rota dos Mistérios Antigos'),
+       ('clarasouza_@gmail.com', 21321, format_datetime('2023-03-05 09:45:00'), format_datetime('2023-03-20 17:45:00'), 'Rota do Explorador Solitário'),
+       ('lp2000lp@gmail.com', 66566, format_datetime('2023-04-20 11:15:00'), format_datetime('2023-04-27 19:15:00'), 'Rota das Maravilhas Naturais'),
+       ('felipecarv@gmail.com', 32111, format_datetime('2023-05-10 07:30:00'), format_datetime('2023-05-15 15:30:00'), 'Rota do Viajante Intrépido'),
+       ('moreiraleo@gmail.com', 44554, format_datetime('2023-06-08 10:00:00'), format_datetime('2023-06-13 18:00:00'), 'Rota do Tesouro Perdido'),
+       ('clarasouza_@gmail.com', 21321, format_datetime('2023-07-25 08:45:00'), format_datetime('2023-07-30 16:45:00'), 'Rota da Serenidade'),
+       ('c_fernandes@gmail.com', 67890, format_datetime('2023-08-14 09:30:00'), format_datetime('2023-08-16 17:30:00'), 'Rota das Aventuras Aquáticas'),
+       ('c_fernandes@gmail.com', 45678, format_datetime('2023-09-03 07:15:00'), format_datetime('2023-09-17 15:15:00'), 'Rota das Maravilhas do Deserto'),
+       ('pcosta1999@gmail.com', 52008, format_datetime('2023-10-12 11:30:00'), format_datetime('2023-10-17 19:30:00'), 'Rota da Floresta Encantada'),
+       ('pcosta1999@gmail.com', 48825, format_datetime('2023-11-20 10:15:00'), format_datetime('2023-11-25 18:15:00'), 'Rota das Montanhas Majestosas');
 
 
-INSERT INTO EXPEDICAO_TURISTA(NAVE, DH_INICIO, TURISTA) VALUES 
-(22151, format_datetime('2023-01-15 08:00:00'), 'j_silva@gmail.com'),
-(14142, format_datetime('2023-02-10 10:30:00'), 'mari.asantos@gmail.com'),
-(21321, format_datetime('2023-03-05 09:45:00'), 'anaoliveira_@gmail.com'),
-(66566, format_datetime('2023-04-20 11:15:00'), 'srodrigues@gmail.com'),
-(32111, format_datetime('2023-05-10 07:30:00'), 'mendeslaura@gmail.com'),
-(44554, format_datetime('2023-06-08 10:00:00'), 'a.almeida@gmail.com'),
-(21321, format_datetime('2023-07-25 08:45:00'), 'biacardoso@gmail.com'),
-(67890, format_datetime('2023-08-14 09:30:00'), 'gomes.math@gmail.com'),
-(45678, format_datetime('2023-09-03 07:15:00'), 'iteixeira@gmail.com'),
-(52008, format_datetime('2023-10-12 11:30:00'), 'gsantos98@gmail.com'),
-(48825, format_datetime('2023-11-20 10:15:00'), 'ribcamila@gmail.com'),
-(22151, format_datetime('2023-01-15 08:00:00'), 'thmiranda@gmail.com'),
-(14142, format_datetime('2023-02-10 10:30:00'), 'luana_ferreira@gmail.com'),
-(21321, format_datetime('2023-03-05 09:45:00'), 'jc1996@gmail.com'),
-(66566, format_datetime('2023-04-20 11:15:00'), 'juliamartins@gmail.com'),
-(32111, format_datetime('2023-05-10 07:30:00'), 'pedrosilva@hotmail.com'),
-(44554, format_datetime('2023-06-08 10:00:00'), 'anacarvalho@yahoo.com'),
-(67890, format_datetime('2023-08-14 09:30:00'), 'luizrodrigues@gmail.com'),
-(45678, format_datetime('2023-09-03 07:15:00'), 'carolpereira@hotmail.com'),
-(52008, format_datetime('2023-10-12 11:30:00'), 'marciooliveira@gmail.com'),
-(48825, format_datetime('2023-11-20 10:15:00'), 'patriciarosa@yahoo.com'),
-(32111, format_datetime('2023-05-10 07:30:00'), 'felipenunes@hotmail.com'),
-(22151, format_datetime('2023-01-15 08:00:00'), 'andressouza@gmail.com'),
-(66566, format_datetime('2023-04-20 11:15:00'), 'marinamartins@yahoo.com'),
-(44554, format_datetime('2023-06-08 10:00:00'), 'carlosrodrigues@hotmail.com');
-
+INSERT INTO EXPEDICAO_TURISTA(NAVE, DH_INICIO, TURISTA)
+VALUES (22151, format_datetime('2023-01-15 08:00:00'), 'j_silva@gmail.com'),
+       (14142, format_datetime('2023-02-10 10:30:00'), 'mari.asantos@gmail.com'),
+       (21321, format_datetime('2023-03-05 09:45:00'), 'anaoliveira_@gmail.com'),
+       (66566, format_datetime('2023-04-20 11:15:00'), 'srodrigues@gmail.com'),
+       (32111, format_datetime('2023-05-10 07:30:00'), 'mendeslaura@gmail.com'),
+       (44554, format_datetime('2023-06-08 10:00:00'), 'a.almeida@gmail.com'),
+       (21321, format_datetime('2023-07-25 08:45:00'), 'biacardoso@gmail.com'),
+       (67890, format_datetime('2023-08-14 09:30:00'), 'gomes.math@gmail.com'),
+       (45678, format_datetime('2023-09-03 07:15:00'), 'iteixeira@gmail.com'),
+       (52008, format_datetime('2023-10-12 11:30:00'), 'gsantos98@gmail.com'),
+       (48825, format_datetime('2023-11-20 10:15:00'), 'ribcamila@gmail.com'),
+       (22151, format_datetime('2023-01-15 08:00:00'), 'thmiranda@gmail.com'),
+       (14142, format_datetime('2023-02-10 10:30:00'), 'luana_ferreira@gmail.com'),
+       (21321, format_datetime('2023-03-05 09:45:00'), 'jc1996@gmail.com'),
+       (66566, format_datetime('2023-04-20 11:15:00'), 'juliamartins@gmail.com'),
+       (32111, format_datetime('2023-05-10 07:30:00'), 'pedrosilva@hotmail.com'),
+       (44554, format_datetime('2023-06-08 10:00:00'), 'anacarvalho@yahoo.com'),
+       (67890, format_datetime('2023-08-14 09:30:00'), 'luizrodrigues@gmail.com'),
+       (45678, format_datetime('2023-09-03 07:15:00'), 'carolpereira@hotmail.com'),
+       (52008, format_datetime('2023-10-12 11:30:00'), 'marciooliveira@gmail.com'),
+       (48825, format_datetime('2023-11-20 10:15:00'), 'patriciarosa@yahoo.com'),
+       (32111, format_datetime('2023-05-10 07:30:00'), 'felipenunes@hotmail.com'),
+       (22151, format_datetime('2023-01-15 08:00:00'), 'andressouza@gmail.com'),
+       (66566, format_datetime('2023-04-20 11:15:00'), 'marinamartins@yahoo.com'),
+       (44554, format_datetime('2023-06-08 10:00:00'), 'carlosrodrigues@hotmail.com');
 
 
 INSERT INTO CORPO (GALAXIA, NOME, RAIO, MASSA, GRAVIDADE, TEMPERATURA, DISTANCIA_TERRA, TIPO)
@@ -377,7 +374,7 @@ VALUES ('Rota da Aventura', 'Pégaso', 'Alpha Centauri'),
        ('Rota da Cultura Local', 'Águia Careca', 'Titã');
 
 
-INSERT INTO ESTRELA(GALAXIA, NOME, LUMINOSIDADE) 
+INSERT INTO ESTRELA(GALAXIA, NOME, LUMINOSIDADE)
 VALUES ('Pégaso', 'Alpha Centauri', 452264),
        ('Nebula', 'Halley', 854237),
        ('Cão Maior', 'Prometeu', 973158),
@@ -397,21 +394,20 @@ VALUES ('Pégaso', 'Alpha Centauri', 452264),
        ('Via Láctea', 'Antares', 564298);
 
 
-
 INSERT INTO PLANETA (GALAXIA, NOME, TEM_AGUA, HABITAVEL, GALAXIA_ESTRELA, NOME_ESTRELA)
 VALUES ('Olho de Coruja', 'Hermes', 'S', 'S', 'Pégaso', 'Alpha Centauri'),
        ('Redemoinho', 'Terra', 'N', 'N', 'Nebula', 'Halley'),
        ('Rodamoinho do Sul', 'Saturno', 'S', 'N', 'Cão Maior', 'Prometeu'),
        ('Sombrero', 'Marte', 'N', 'N', 'Dragão de Komodo', 'Cometar'),
        ('Via Láctea', 'Júpiter', 'S', 'N', 'Apokolips', 'Betelgeuse'),
-       ('Andrômeda', 'Plutão', 'S', 'S', 'Baleia Cinza', 'Caronte'), 
+       ('Andrômeda', 'Plutão', 'S', 'S', 'Baleia Cinza', 'Caronte'),
        ('Cetus A', 'Venus', 'N', 'N', 'Trishula de Shiva', 'Hale-Bopp'),
        ('Nuvem de Magalhães', 'Ganimedes', 'S', 'N', 'Canguru-Caracol', 'Tétis'),
        ('Roda de Carroça', 'Mimas', 'S', 'N', 'Pégaso', 'Sirius'),
        ('Cisne Negro', 'Encélado', 'S', 'N', 'Nebula', 'Neowise'),
        ('Águia Careca', 'Titã', 'N', 'N', 'Via Láctea', 'Sírius B'),
        ('Trem-bala', 'Fobos', 'N', 'N', 'Andrômeda', 'Oberon'),
-       ('Grande Libélula', 'Éris', 'S', 'N', 'Cetus A', 'Nix'),  
+       ('Grande Libélula', 'Éris', 'S', 'N', 'Cetus A', 'Nix'),
        ('Excalibur', 'Oumuamua', 'S', 'S', 'Nuvem de Magalhães', 'Miranda'),
        ('Artemis', 'Io', 'S', 'N', 'Pégaso', 'Hércules'),
        ('Olho de Coruja', 'Apolo', 'S', 'N', 'Nebula', 'Pan-STARRS'),
@@ -432,7 +428,6 @@ VALUES ('Olho de Coruja', 'Hermes'),
        ('Sombrero', 'Pluto'),
        ('Redemoinho', 'Júpiter'),
        ('Andrômeda', 'Tântalo');
-
 
 
 INSERT INTO FACCAO_RACA(FACCAO, RACA)
