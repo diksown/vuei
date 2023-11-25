@@ -1,5 +1,3 @@
--- Funções para facilitar a inserção de datas
--- E não ter 1001's "YYYY-MM-DD HH24:MI:SS" no código
 CREATE OR REPLACE FUNCTION format_datetime(date_str VARCHAR)
 RETURNS TIMESTAMP AS $$
 BEGIN
@@ -14,7 +12,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Inserção de dados
+
 
 INSERT INTO PESSOA (EMAIL, NOME, SENHA, TELEFONE, DATA)
 VALUES ('j_silva@gmail.com', 'João Silva', 'R$w#2gFq7P', '(11)99876-5432', format_date('1997/10/12')),
@@ -364,7 +362,7 @@ VALUES ('Pégaso', 'Alpha Centauri', 1276, 54980, 56, 32, 49782, 'estrela'),
        ('Nebula', 'Pan-STARRS', 596, 27563, 64, 58, 98321, 'estrela'),
        ('Rodamoinho do Sul', 'Vênus', 6051, 73542, 27, 33, 723409, 'planeta'),
        ('Via Láctea', 'Antares', 2075, 81246, 55, 51, 256489, 'estrela'),
-       ('Andrômeda', 'Tântalo', 468, 20569, 67, 63, 46528, 'planeta'),
+       ('Andrômeda', 'Tântalo', 468, 20569, 67, 63, 46528, 'planeta');
 
 
 INSERT INTO ROTA_CORPO(ROTA, GALAXIA_CORPO, NOME_CORPO)
@@ -405,6 +403,7 @@ VALUES ('Pégaso', 'Alpha Centauri', 452264),
        ('Via Láctea', 'Antares', 564298);
 
 
+
 INSERT INTO PLANETA (GALAXIA, NOME, TEM_AGUA, HABITAVEL, GALAXIA_ESTRELA, NOME_ESTRELA)
 VALUES ('Olho de Coruja', 'Hermes', 'S', 'S', 'Pégaso', 'Alpha Centauri'),
        ('Redemoinho', 'Terra', 'N', 'N', 'Nebula', 'Halley'),
@@ -418,22 +417,22 @@ VALUES ('Olho de Coruja', 'Hermes', 'S', 'S', 'Pégaso', 'Alpha Centauri'),
        ('Cisne Negro', 'Encélado', 'S', 'N', 'Nebula', 'Neowise'),
        ('Águia Careca', 'Titã', 'N', 'N', 'Via Láctea', 'Sírius B'),
        ('Trem-bala', 'Fobos', 'N', 'N', 'Andrômeda', 'Oberon'),
-       ('Grande Libélula', 'Éris', 'S', 'N', 'Cetus A', 'Nix');  
+       ('Grande Libélula', 'Éris', 'S', 'N', 'Cetus A', 'Nix'),  
        ('Excalibur', 'Oumuamua', 'S', 'S', 'Nuvem de Magalhães', 'Miranda'),
        ('Artemis', 'Io', 'S', 'N', 'Pégaso', 'Hércules'),
-       ('Olho de Coruja', 'Apolo', 'S', 'N', 'Nebula', 'Pan-STARRS');
+       ('Olho de Coruja', 'Apolo', 'S', 'N', 'Nebula', 'Pan-STARRS'),
        ('Redemoinho', 'Urano', 'S', 'S', 'Via Láctea', 'Antares'),
        ('Rodamoinho do Sul', 'Netuno', 'N', 'N', 'Pégaso', 'Alpha Centauri'),
-       ('Sombrero', 'Pluto', 'S', 'S', 'Nebula', 'Halley');
-       ('Olho de Coruja', 'Hades', 'N', 'N', 'Cão Maior', 'Prometeu');
+       ('Sombrero', 'Pluto', 'S', 'S', 'Nebula', 'Halley'),
+       ('Olho de Coruja', 'Hades', 'N', 'N', 'Cão Maior', 'Prometeu'),
        ('Redemoinho', 'Júpiter', 'N', 'S', 'Dragão de Komodo', 'Cometar'),
        ('Rodamoinho do Sul', 'Vênus', 'S', 'N', 'Apokolips', 'Betelgeuse'),
        ('Andrômeda', 'Tântalo', 'S', 'S', 'Baleia Cinza', 'Caronte');
 
+
 INSERT INTO PLANETA_HABITAVEL(GALAXIA, NOME)
 VALUES ('Olho de Coruja', 'Hermes'),
        ('Andrômeda', 'Plutão'),
-       ('Cetus A', 'Aqua Prime'),
        ('Excalibur', 'Oumuamua'),
        ('Redemoinho', 'Urano'),
        ('Sombrero', 'Pluto'),
@@ -497,31 +496,27 @@ VALUES ('Ordem das Estrelas Luminosas', 'Zorgon'),
        ('Liga dos Exploradores Cósmicos', 'Xylos'),
        ('Sindicato das Constelações', 'Vylkor'),
        ('União Astral', 'Grynthor'),
-       ('Pacto Intergaláctico', 'Zorgon'),
+       ('Pacto Intergaláctico', 'Zorgon');
 
 
 INSERT INTO COLONIA (ID, GALAXIA, NOME_PLANETA, FACCAO_NOME, DH_INICIO, DH_FIM, NOME)
 VALUES (57649102, 'Olho de Coruja', 'Hermes', 'Ordem das Estrelas Luminosas', format_datetime('2023-01-15 08:30:00'), format_datetime('2026-03-20 16:45:00'), 'Colônia Aurora'),
        (67482134, 'Andrômeda', 'Plutão', 'Liga dos Planetas Livres', format_datetime('2023-02-05 12:15:00'), NULL, 'Libertária Prime'),
-       (48970234, 'Cetus A', 'Aqua Prime', 'União dos Mundos Unidos', format_datetime('2023-03-20 09:45:00'), format_datetime('2029-06-25 18:00:00'), 'Aqualux'),
        (59234512, 'Excalibur', 'Oumuamua', 'Fraternidade das Dimensões', format_datetime('2023-05-10 14:30:00'), NULL, 'Cidade Arco-Íris'),
        (68894562, 'Redemoinho', 'Urano', 'Pacto dos Astros', format_datetime('2023-07-01 17:20:00'), NULL, 'Astrocolônia Pinnacle'),
        (39487623, 'Sombrero', 'Pluto', 'Legado dos Antigos', format_datetime('2023-09-15 11:10:00'), format_datetime('2039-12-20 15:30:00'), 'Esmeralda Central'),
        (52183476, 'Olho de Coruja', 'Hermes', 'Sociedade das Estrelas', format_datetime('2024-01-05 20:45:00'), NULL, 'Estrela Prospera'),
        (70235689, 'Andrômeda', 'Plutão', 'Congregação Estelar', format_datetime('2024-02-20 14:00:00'), format_datetime('2033-05-25 16:20:00'), 'Pacífica Celestial'),
-       (45768932, 'Cetus A', 'Aqua Prime', 'Ordem das Estrelas Luminosas', format_datetime('2024-03-20 09:45:00'), NULL, 'Colônia Azul'),
        (57893124, 'Excalibur', 'Oumuamua', 'Liga dos Planetas Livres', format_datetime('2024-05-10 14:30:00'), format_datetime('2039-08-15 10:10:00'), 'Prisma Celeste'),
        (67892453, 'Redemoinho', 'Urano', 'União dos Mundos Unidos', format_datetime('2024-07-01 17:20:00'), NULL, 'Polaris'),
        (39817265, 'Sombrero', 'Pluto', 'Fraternidade das Dimensões', format_datetime('2024-09-15 11:10:00'), format_datetime('2037-12-20 15:30:00'), 'Vortex Prime'),
        (54279810, 'Olho de Coruja', 'Hermes', 'Pacto dos Astros', format_datetime('2025-01-05 20:45:00'), format_datetime('2028-04-10 08:15:00'), 'Colônia Celestial'),
        (70012345, 'Andrômeda', 'Plutão', 'Sociedade das Estrelas', format_datetime('2025-02-20 14:00:00'), NULL, 'Vênus Radiante'),
-       (46782309, 'Cetus A', 'Aqua Prime', 'Congregação Estelar', format_datetime('2025-03-20 09:45:00'), NULL, 'Aqualuna'),
        (59123478, 'Excalibur', 'Oumuamua', 'Ordem das Estrelas Luminosas', format_datetime('2025-05-10 14:30:00'), format_datetime('2028-08-15 10:10:00'), 'Celestialis'),
        (68567923, 'Redemoinho', 'Urano', 'Liga dos Planetas Livres', format_datetime('2025-07-01 17:20:00'), format_datetime('2029-10-05 20:45:00'), 'Plutonion'),
        (39472156, 'Sombrero', 'Pluto', 'União dos Mundos Unidos', format_datetime('2025-09-15 11:10:00'), format_datetime('2028-12-20 15:30:00'), 'EcoVenus'),
        (51982734, 'Olho de Coruja', 'Hermes', 'Fraternidade das Dimensões', format_datetime('2026-01-05 20:45:00'), NULL, 'Dimensia Prime'),
        (70589642, 'Andrômeda', 'Plutão', 'Pacto dos Astros', format_datetime('2026-02-20 14:00:00'), format_datetime('2030-05-25 16:20:00'), 'AstroVenus'),
-       (47823456, 'Cetus A', 'Aqua Prime', 'Sociedade das Estrelas', format_datetime('2026-03-20 09:45:00'), format_datetime('2029-06-25 18:00:00'), 'Aquafuturis'),
        (59321876, 'Excalibur', 'Oumuamua', 'Congregação Estelar', format_datetime('2026-05-10 14:30:00'), NULL, 'Éris Stellaris'),
        (67890543, 'Redemoinho', 'Urano', 'Ordem das Estrelas Luminosas', format_datetime('2026-07-01 17:20:00'), NULL, 'Pluto Celestial'),
        (39456789, 'Redemoinho', 'Júpiter', 'Liga dos Planetas Livres', format_datetime('2026-09-15 11:10:00'), NULL, 'Vênus Liberta'),
@@ -530,17 +525,17 @@ VALUES (57649102, 'Olho de Coruja', 'Hermes', 'Ordem das Estrelas Luminosas', fo
 
 INSERT INTO GUERRA (AGRESSOR, DEFENSOR, DH_INICIO, DH_FIM, OBITOS)
 VALUES (57649102, 67482134, format_datetime('2022-01-15 08:30:00'), format_datetime('2023-08-20 16:45:00'), 421),
-       (57649102, 48970234, format_datetime('2022-03-05 12:15:00'), format_datetime('2023-10-10 14:20:00'), 1567),
+       (57649102, 59123478, format_datetime('2022-03-05 12:15:00'), format_datetime('2023-10-10 14:20:00'), 1567),
        (59234512, 68894562, format_datetime('2022-05-20 09:45:00'), NULL, 314),
        (39487623, 52183476, format_datetime('2022-08-10 14:30:00'), format_datetime('2024-02-15 10:10:00'), 489),
-       (70235689, 45768932, format_datetime('2022-12-01 17:20:00'), NULL, 621),
+       (70235689, 52349876, format_datetime('2022-12-01 17:20:00'), NULL, 621),
        (57893124, 67892453, format_datetime('2023-03-15 11:10:00'), format_datetime('2024-09-20 15:30:00'), 352),
        (39817265, 54279810, format_datetime('2023-06-30 20:45:00'), format_datetime('2025-01-05 08:15:00'), 5422),
        (39817265, 70012345, format_datetime('2023-10-20 14:00:00'), format_datetime('2025-04-25 16:20:00'), 389),
-       (46782309, 59123478, format_datetime('2024-02-15 09:45:00'), NULL, 631),
+       (67482134, 59123478, format_datetime('2024-02-15 09:45:00'), NULL, 631),
        (68567923, 39472156, format_datetime('2024-06-05 14:30:00'), format_datetime('2026-01-10 10:10:00'), 478),
        (51982734, 70589642, format_datetime('2024-09-20 17:20:00'), format_datetime('2026-03-25 20:45:00'), 5173),
-       (47823456, 59321876, format_datetime('2025-01-10 11:10:00'), format_datetime('2026-07-15 15:30:00'), 297),
+       (51982734, 59321876, format_datetime('2025-01-10 11:10:00'), format_datetime('2026-07-15 15:30:00'), 297),
        (67890543, 39456789, format_datetime('2025-05-25 20:45:00'), NULL, 642),
        (52349876, 57893124, format_datetime('2025-09-15 14:00:00'), format_datetime('2027-03-20 16:20:00'), 532),
-       (45768932, 39487623, format_datetime('2026-01-05 09:45:00'), format_datetime('2027-07-10 18:00:00'), 4651);
+       (68894562, 39487623, format_datetime('2026-01-05 09:45:00'), format_datetime('2027-07-10 18:00:00'), 4651);

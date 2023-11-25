@@ -4,7 +4,7 @@ DATABASE_NAME="test_sql"
 USER="postgres" # Default user
 HOST="localhost"
 
-FILES=("esquema.sql" "triggers.sql" "dados.sql" "consultas.sql")
+FILES=("esquema.sql" "dados.sql" "consultas.sql")
 
 for file in "${FILES[@]}"
 do
