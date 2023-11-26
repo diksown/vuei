@@ -36,14 +36,14 @@ class VueiShell(cmd.Cmd):
         return self.cur.fetchone()[0]
 
     def _populate_db(self):
-        print("[bold green]Inicializando o banco de dados...[/bold green]")
+        print("[bold green]Populando o banco de dados...[/bold green]")
         file_names = ["esquema.sql", "dados.sql"]
         for file_name in file_names:
             print(f"[bold green]Executando {file_name}...[/bold green]")
             file_path = os.path.join(os.path.dirname(__file__), f"../sql/{file_name}")
             with open(file_path, "r") as file:
                 self.cur.execute(file.read())
-
+        print("[bold green]Banco de dados populado com sucesso![/bold green]")
         print()
         self.conn.commit()
 
@@ -51,16 +51,22 @@ class VueiShell(cmd.Cmd):
         table = query_to_rich_table(self.cur, query)
         return table
 
-    def do_apagar_banco(self, arg):
-        """Apaga o banco de dados conectado INTEIRO. Use com cuidado!"""
-        SECONDS = 10
+    def do_resetar_banco(self, arg):
+        """Reseta o banco de dados INTEIRO e popula com os dados iniciais. Use com cuidado!"""
         print(
-            f"[bold red]Apagando TODO o banco de dados em {SECONDS} segundos... Pressione Ctrl+C para cancelar.[/bold red]"
+            "[bold red]Deseja apagar esse banco de dados INTEIRO e preencher com os dados iniciais?[/bold red]",
+            end=" ",
         )
-        time.sleep(SECONDS)
+        input("Pressione Ctrl+C para cancelar ou Enter para continuar. ")
+        print(
+            "[bold red]Tem CERTEZA de que quer apagar o banco INTEIRO? Essa operação não tem volta.[bold red]",
+            end=" ",
+        )
+        input("Pressione Enter de novo para confirmar. ")
         self.cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
         self.conn.commit()
         print("[bold green]Banco de dados apagado com sucesso![/bold green]")
+        self._populate_db()
 
     def do_listar_expedicoes(self, arg):
         """Lista expedições que ainda não partiram e que possuem vagas. (1º do consultas.sql)"""
