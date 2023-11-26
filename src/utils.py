@@ -1,6 +1,5 @@
 from psycopg2.extensions import cursor
-from rich.console import Console
-from rich.table import Column, Table
+from rich.table import Table
 
 
 def query_to_rich_table(cursor: cursor, query: str):
