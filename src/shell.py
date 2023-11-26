@@ -1,4 +1,5 @@
 import cmd
+import webbrowser
 
 from rich import print
 
@@ -20,17 +21,17 @@ class VueiShell(cmd.Cmd):
         print("Bem-vindo ao [bold]VUEI DEMAIS[/bold]!")
         print("Digite help ou ? para listar os comandos ou Ctrl+C para sair.")
 
-    def do_consultar_destinos(self, arg):
-        """Consulta destinos de expedições interplanetárias."""
-        print("Destinos disponíveis: Marte, Júpiter, Saturno")
+    def do_listar_expedicoes(self, arg):
+        """Lista expedições disponíveis para reserva."""
+        print("Expedições disponíveis: Fim do Mundo, Marte, Lua")
 
-    def do_verificar_nave(self, arg):
-        """Verifica o status da nave espacial."""
-        print("Status da Nave: Pronta para decolagem")
+    def do_listar_turistas(self, arg):
+        """Lista todos os turistas."""
+        print("Turistas: João, Maria, José")
 
-    def do_registrar_expedicao(self, arg):
-        """Registra uma nova expedição."""
-        print("Expedição registrada com sucesso!")
+    def do_registrar_turista_em_expedicao(self, arg):
+        """Registra um turista em uma expedição."""
+        print("Turista registrado com sucesso!")
 
     def _sair(self):
         print(f"Saindo da shell interplanetária.")
@@ -42,14 +43,14 @@ class VueiShell(cmd.Cmd):
         """Sai da shell"""
         return self._sair()
 
-    def do_EOF(self, arg):
-        """Comando criado para sair da shell com Ctrl+D."""
-        print()  # Pula uma linha para ficar consistente com os outros
-        return self._sair()
-
     def cmdloop(self):
         try:
             super(VueiShell, self).cmdloop()
         except KeyboardInterrupt:  # Ctrl+C
             print("\nSaindo da shell interplanetária (Ctrl+C pressionado).")
             return True
+
+    def default(self, arg):
+        if arg == "EOF":
+            print()
+            return self._sair()
