@@ -63,7 +63,7 @@ class VueiShell(cmd.Cmd):
         print("[bold green]Banco de dados apagado com sucesso![/bold green]")
 
     def do_listar_expedicoes(self, arg):
-        """Lista expedições disponíveis para reserva."""
+        """Lista expedições que ainda não partiram e que possuem vagas. (1º do consultas.sql)"""
         try:
             table = self.pretty_query(
                 """
