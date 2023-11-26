@@ -12,7 +12,7 @@ END;
 $$ LANGUAGE PLPGSQL;
 
 
-INSERT INTO PESSOA (EMAIL, NOME, SENHA, TELEFONE, DATA)
+INSERT INTO PESSOA (EMAIL, NOME, SENHA, TELEFONE, DATA_NASC)
 VALUES ('j_silva@gmail.com', 'João Silva', 'R$w#2gFq7P', '(11)99876-5432', format_date('1997/10/12')),
        ('mari.asantos@gmail.com', 'Maria Santos', 't9*G@zKp$L', '(21)95555-1234', format_date('1998/10/16')),
        ('pcosta1999@gmail.com', 'Pedro Costa', '5xU$P#zJwY', '(31)97777-8888', format_date('1999/05/05')),
