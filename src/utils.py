@@ -12,7 +12,6 @@ def query_to_rich_table(cursor: cursor, query: str):
         table.add_column(col)
 
     for row in data:
-        print(row)
         table.add_row(*[str(item) for item in row])
 
     return table
