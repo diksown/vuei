@@ -17,7 +17,7 @@
 
 ### Pré-requisitos
 
-Verifique se você tem Python >3.10 instalado
+Verifique se você tem Python >=3.10 instalado
 
 ```sh
 git clone https://github.com/diksown/vuei
