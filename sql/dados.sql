@@ -107,7 +107,7 @@ VALUES ('j_silva@jmail.com','Brasil'),
        ('felipenunes@coldmail.com', 'Portugal'),
        ('andressouza@jmail.com', 'Nova Zelandia'),
        ('marinamartins@yohoo.com', 'Nova Zelandia'),
-       ('doublesound@math.com', 'Estados Unidos')
+       ('doublesound@math.com', 'Estados Unidos'),
        ('carlosrodrigues@coldmail.com', 'Nova Zelandia'),
        ('joanagarcia@jmail.com', 'Holanda'),
        ('robertocarvalho@yohoo.com','Brasil'),
