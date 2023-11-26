@@ -1,13 +1,13 @@
 import cmd
 import os
-import time
-import webbrowser
 
+import psycopg2
+import questionary
 from rich import print
 from rich.console import Console
 
 from .conn import CantConnectToDbError, get_db_connection
-from .utils import query_to_rich_table
+from .utils import query_to_rich_table, rr
 
 console = Console()
 
@@ -100,9 +100,35 @@ class VueiShell(cmd.Cmd):
         except Exception as e:
             print(e)
 
-    def do_registrar_turista_em_expedicao(self, arg):
-        """Registra um turista em uma expedição."""
-        print("Turista registrado com sucesso!")
+    def do_inserir_turista_em_expedicao(self, arg):
+        """Insere um turista em uma expedição."""
+        try:
+            turista = questionary.text("Email do turista:").unsafe_ask()
+            nave = questionary.text("Número de registro da nave:").unsafe_ask()
+            dh_inicio = questionary.text(
+                'Data e hora de início da expedição (formato "YYYY-MM-DD HH24:MI:SS"):'
+            ).unsafe_ask()
+        except KeyboardInterrupt:
+            return
+
+        data = rr(turista, nave, dh_inicio)
+
+        try:
+            self.cur.execute(
+                """
+                INSERT INTO EXPEDICAO_TURISTA (NAVE, DH_INICIO, TURISTA)
+                VALUES (%s, %s, %s)
+                """,
+                data,
+            )
+            self.conn.commit()
+            print(
+                f"[bold green]Turista {turista} registrado na expedição (NAVE={nave}, DH_INICIO={dh_inicio}).[/bold green]"
+            )
+        except psycopg2.Error as error:
+            a = f"Erro ao inserir turista na expedição: {error}"
+            print(a)
+            self.conn.rollback()
 
     def _sair(self):
         print(f"Saindo da shell interplanetária.")
@@ -125,3 +151,5 @@ class VueiShell(cmd.Cmd):
         if arg == "EOF":  # Ctrl+D
             print()
             return self._sair()
+        else:
+            return super(VueiShell, self).default(arg)
