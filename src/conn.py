@@ -51,11 +51,13 @@ def get_credentials() -> dict:
         return json.load(file)
 
 
-def get_db_connection():
+def get_db_connection() -> psycopg2.extensions.connection:
     if not os.path.exists(DB_ENV_PATH):
         print("[bold]Olá!")
         print()
-        print("Parece que você está executando o [bold]vuei[/bold] pela primeira vez!")
+        print(
+            "Parece que você está executando o [bold]VUEI DEMAIS[/bold] pela primeira vez!"
+        )
         print(
             # de uma desculpa de que vcs são economicos
             "Devido ao nosso [strike]corte de gastos[/strike] compromisso com os preços baixos para nossos clientes,\n"

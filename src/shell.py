@@ -1,4 +1,6 @@
 import cmd
+import os
+import time
 import webbrowser
 
 from rich import print
@@ -13,13 +15,44 @@ class VueiShell(cmd.Cmd):
         super(VueiShell, self).__init__()
         try:
             self.conn = get_db_connection()
+            self.cur = self.conn.cursor()
         except CantConnectToDbError:
             exit(1)
 
-        # TODO: Rodar o sql para popular o banco de dados
+        if not self._is_initialized():
+            self._populate_db()
 
         print("Bem-vindo ao [bold]VUEI DEMAIS[/bold]!")
         print("Digite help ou ? para listar os comandos ou Ctrl+C para sair.")
+
+    def _is_initialized(self):
+        self.cur.execute(
+            "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'guerra')"
+        )
+        return self.cur.fetchone()[0]
+
+    def _populate_db(self):
+        print("[bold green]Inicializando o banco de dados...[/bold green]")
+        file_names = ["esquema.sql", "dados.sql"]
+        for file_name in file_names:
+            print(f"[bold green]Executando {file_name}...[/bold green]")
+            file_path = os.path.join(os.path.dirname(__file__), f"../sql/{file_name}")
+            with open(file_path, "r") as file:
+                self.cur.execute(file.read())
+
+        print()
+        self.conn.commit()
+
+    def do_apagar_banco(self, arg):
+        """Apaga o banco de dados conectado INTEIRO. Use com cuidado!"""
+        SECONDS = 10
+        print(
+            f"[bold red]Apagando TODO o banco de dados em {SECONDS} segundos... Pressione Ctrl+C para cancelar.[/bold red]"
+        )
+        time.sleep(SECONDS)
+        self.cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+        self.conn.commit()
+        print("[bold green]Banco de dados apagado com sucesso![/bold green]")
 
     def do_listar_expedicoes(self, arg):
         """Lista expedições disponíveis para reserva."""
@@ -27,7 +60,18 @@ class VueiShell(cmd.Cmd):
 
     def do_listar_turistas(self, arg):
         """Lista todos os turistas."""
-        print("Turistas: João, Maria, José")
+        try:
+            self.cur.execute(
+                """
+                SELECT NOME, TURISTA.EMAIL
+                FROM TURISTA JOIN PESSOA
+                    ON TURISTA.EMAIL = PESSOA.EMAIL;
+                """
+            )
+            for row in self.cur.fetchall():
+                print(f"[bold]{row[0]}[/bold] [blue]<{row[1]}>[/blue]")
+        except Exception as e:
+            print(e)
 
     def do_registrar_turista_em_expedicao(self, arg):
         """Registra um turista em uma expedição."""
@@ -51,6 +95,6 @@ class VueiShell(cmd.Cmd):
             return True
 
     def default(self, arg):
-        if arg == "EOF":
+        if arg == "EOF":  # Ctrl+D
             print()
             return self._sair()
