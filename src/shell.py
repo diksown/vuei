@@ -123,7 +123,7 @@ class VueiShell(cmd.Cmd):
             )
             self.conn.commit()
             print(
-                f"[bold green]Turista {turista} registrado na expedição (NAVE={nave}, DH_INICIO={dh_inicio}).[/bold green]"
+                f"[bold green]Turista {turista} registrado na expedição (NAVE='{nave}', DH_INICIO='{dh_inicio}').[/bold green]"
             )
         except psycopg2.Error as error:
             a = f"Erro ao inserir turista na expedição: {error}"
