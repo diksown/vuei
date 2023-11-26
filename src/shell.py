@@ -4,8 +4,12 @@ import time
 import webbrowser
 
 from rich import print
+from rich.console import Console
 
 from .conn import CantConnectToDbError, get_db_connection
+from .utils import query_to_rich_table
+
+console = Console()
 
 
 class VueiShell(cmd.Cmd):
@@ -43,6 +47,10 @@ class VueiShell(cmd.Cmd):
         print()
         self.conn.commit()
 
+    def pretty_query(self, query: str):
+        table = query_to_rich_table(self.cur, query)
+        return table
+
     def do_apagar_banco(self, arg):
         """Apaga o banco de dados conectado INTEIRO. Use com cuidado!"""
         SECONDS = 10
@@ -56,20 +64,33 @@ class VueiShell(cmd.Cmd):
 
     def do_listar_expedicoes(self, arg):
         """Lista expedições disponíveis para reserva."""
-        print("Expedições disponíveis: Fim do Mundo, Marte, Lua")
+        try:
+            table = self.pretty_query(
+                """
+                SELECT EX.ROTA, EX.NAVE, EX.DH_INICIO, ((NV.CAPACIDADE - 1) - COUNT(ET.TURISTA)) AS VAGAS_RESTANTES
+                FROM EXPEDICAO EX JOIN NAVE NV
+                    ON EX.NAVE = NV.NUMERO_REGISTRO
+                    LEFT JOIN EXPEDICAO_TURISTA ET
+                        ON ET.NAVE = EX.NAVE AND ET.DH_INICIO = EX.DH_INICIO
+                GROUP BY EX.NAVE, EX.DH_INICIO, NV.CAPACIDADE
+                HAVING COUNT(ET.TURISTA) < NV.CAPACIDADE - 1
+                    AND CURRENT_DATE < EX.DH_INICIO;"""
+            )
+            console.print(table)
+        except Exception as e:
+            print(e)
 
     def do_listar_turistas(self, arg):
         """Lista todos os turistas."""
         try:
-            self.cur.execute(
+            table = self.pretty_query(
                 """
                 SELECT NOME, TURISTA.EMAIL
                 FROM TURISTA JOIN PESSOA
                     ON TURISTA.EMAIL = PESSOA.EMAIL;
                 """
             )
-            for row in self.cur.fetchall():
-                print(f"[bold]{row[0]}[/bold] [blue]<{row[1]}>[/blue]")
+            console.print(table)
         except Exception as e:
             print(e)
 
