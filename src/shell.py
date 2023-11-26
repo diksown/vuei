@@ -111,7 +111,7 @@ class VueiShell(cmd.Cmd):
         except KeyboardInterrupt:
             return
 
-        data = rr(turista, nave, dh_inicio)
+        data = rr(nave, dh_inicio, turista)
 
         try:
             self.cur.execute(
