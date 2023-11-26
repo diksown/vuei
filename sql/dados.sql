@@ -89,7 +89,7 @@ VALUES ('j_silva@jmail.com','Brasil'),
        ('biacardoso@jmail.com', 'Portugal'),
        ('gomes.math@jmail.com', 'Canada'),
        ('iteixeira@jmail.com', 'Canada'),
-       ('diksonsan@bjj.com', "Reino Unido")
+       ('diksonsan@bjj.com', "Reino Unido"),
        ('gsantos98@jmail.com', 'Portugal'),
        ('ribcamila@jmail.com', 'Argentina'),
        ('thmiranda@jmail.com', 'Argentina'),
