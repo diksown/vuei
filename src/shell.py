@@ -28,6 +28,7 @@ class VueiShell(cmd.Cmd):
 
         print("Bem-vindo ao [bold]VUEI DEMAIS[/bold]!")
         print("Digite help ou ? para listar os comandos ou Ctrl+C para sair.")
+        print("Visite o projeto no GitHub: https://www.github.com/diksown/vuei")
 
     def _is_initialized(self):
         self.cur.execute(
