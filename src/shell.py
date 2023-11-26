@@ -94,7 +94,8 @@ class VueiShell(cmd.Cmd):
                 """
                 SELECT NOME, TURISTA.EMAIL
                 FROM TURISTA JOIN PESSOA
-                    ON TURISTA.EMAIL = PESSOA.EMAIL;
+                    ON TURISTA.EMAIL = PESSOA.EMAIL
+                ORDER BY NOME;
                 """
             )
             console.print(table)
