@@ -70,11 +70,17 @@ class VueiShell(cmd.Cmd):
         self._populate_db()
 
     def do_listar_expedicoes(self, arg):
-        """Lista expedições que ainda não partiram e que possuem vagas. (1º do consultas.sql)"""
+        """Lista expedições que ainda não partiram
+        e que possuem vagas. (1º do consultas.sql)"""
         try:
             table = self.pretty_query(
                 """
-                SELECT EX.ROTA, EX.NAVE, EX.DH_INICIO, ((NV.CAPACIDADE - 1) - COUNT(ET.TURISTA)) AS VAGAS_RESTANTES
+                SELECT 
+                    EX.ROTA,
+                    EX.NAVE,
+                    EX.DH_INICIO,
+                    ((NV.CAPACIDADE - 1) - COUNT(ET.TURISTA))
+                    AS VAGAS_RESTANTES
                 FROM EXPEDICAO EX JOIN NAVE NV
                     ON EX.NAVE = NV.NUMERO_REGISTRO
                     LEFT JOIN EXPEDICAO_TURISTA ET
@@ -125,7 +131,8 @@ class VueiShell(cmd.Cmd):
             )
             self.conn.commit()
             print(
-                f"[bold green]Turista {turista} registrado na expedição (NAVE='{nave}', DH_INICIO='{dh_inicio}').[/bold green]"
+                f"[bold green]Turista {turista} registrado na expedição "
+                + "(NAVE='{nave}', DH_INICIO='{dh_inicio}').[/bold green]"
             )
         except psycopg2.Error as error:
             a = f"Erro ao inserir turista na expedição: {error}"
