@@ -11,13 +11,21 @@
 
 ## Sobre
 
-🚧
+<div align="right"> 
+  <div><i>“Se você não está quebrando coisas, você não está inovando.”</i></div>
+  <sub>– <b>Stockton Rush</b>, CEO da OceanGate</sub>
+</div>
+<br>
+
+Esse repositório foi criado para gerenciar as expedições realizadas utilizando os revolucionários **V.U.E.I.**'s, naves que revolucionaram o turismo espacial ao substituir os sistemas de direção (caros e complexos) por controles sem fio de videogame (econômicos e intuitivos)
+
+Ele contém arquivos SQL para operações rotineiras (criação do esquema da base de dados, consultas típicas, etc) na pasta `sql` e o código fonte para um app da linha de comando na pasta `src`.
+
+<sub>E, como bônus, também serviu como o trabalho final da disciplina SCC0640 - Bases de Dados. O relatório está em <b>vuei.pdf</b>.</sub>
 
 ## Instalação
 
-### Pré-requisitos
-
-Verifique se você tem Python >=3.10 instalado
+**Requisitos**: `python>=3.10`
 
 ```sh
 git clone https://github.com/diksown/vuei
